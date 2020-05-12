@@ -95,7 +95,3 @@ def get_intersection_points(x0, y0, a, b, d):
                 if check_bounds(sol_x, line['bounds']):
                     res.append((sol_x, sol_y))
     return res
-
-
-# Variable with the function that we want to test
-alg_to_test = get_intersection_points
