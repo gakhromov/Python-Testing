@@ -1,6 +1,3 @@
-import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
-from matplotlib.patches import Patch
 import numpy as np
 import plotly.graph_objects as go
 
