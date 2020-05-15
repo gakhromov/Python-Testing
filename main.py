@@ -45,7 +45,10 @@ class TestBlackBox(unittest.TestCase):
                 raise
 
 
+
+class TestWhiteBox(unittest.TestCase):
+    pass
+
+
 if __name__ == "__main__":
-    blackbox = blackbox.TestBlackBox()
-    blackbox.run()
-    #unittest.main()
+    unittest.main()
