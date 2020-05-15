@@ -94,4 +94,6 @@ def get_intersection_points(x0, y0, a, b, d):
                 # check for bounds:
                 if check_bounds(sol_x, line['bounds']):
                     res.append((sol_x, sol_y))
+    # remove repetitions 
+    res = list(set(res))
     return res

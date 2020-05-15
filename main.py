@@ -1,7 +1,8 @@
 import alg
 import draw
+import utils      
 import unittest
-import utils
+
 
 # black box testing
 class TestBlackBox(unittest.TestCase):
@@ -23,6 +24,10 @@ class TestBlackBox(unittest.TestCase):
                 'input': {'x0': 0, 'y0': 4, 'a': 3, 'b': 2, 'd': 2},
                 'output': [(0.0, 2.0)]
             },
+            {
+                'input': {'x0': 0, 'y0': 4, 'a': 3, 'b': 2, 'd': -1},
+                'output': [(-3.0, 4.0), (-1.154, 2.154), (1.154, 2.154), (3.0, 4.0)]
+            },
         ]
         for test in tests:
             # test that calculated == true
@@ -38,7 +43,9 @@ class TestBlackBox(unittest.TestCase):
                                                             intersections_true=test['output'])
                 graph.show()
                 raise
-                
+
 
 if __name__ == "__main__":
-    unittest.main()
+    blackbox = blackbox.TestBlackBox()
+    blackbox.run()
+    #unittest.main()
