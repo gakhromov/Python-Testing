@@ -1,18 +1,10 @@
 import alg
 import draw
 import unittest
+import utils
 
-
-class TestClass(unittest.TestCase):
-    def round_point_array(self, point_array, ndigits=2):
-        new_point_array = []
-        for point in point_array:
-            el0 = round(point[0], ndigits)
-            el1 = round(point[1], ndigits)
-            new_point_array.append((el0, el1))
-        return new_point_array
-    
-    # black box testing
+# black box testing
+class TestBlackBox(unittest.TestCase):
     def test_black_box(self):
         tests = [
             {
@@ -34,15 +26,17 @@ class TestClass(unittest.TestCase):
         ]
         for test in tests:
             # test that calculated == true
-            calculated_out = self.round_point_array(sorted(alg.get_intersection_points(**test['input'])))
-            test_out = self.round_point_array(sorted(test['output']))
+            calculated_out = utils.round_point_array(sorted(alg.get_intersection_points(**test['input'])))
+            test_out = utils.round_point_array(sorted(test['output']))
             try:
                 self.assertListEqual(calculated_out, test_out)
             except:
                 # draw if incorrect
-                legend = draw.draw_ellipse_line_intersections(**test['input'], intersections=calculated_out)
-                limits = draw.compute_lims(**values)
-                draw.show(legend_handles=legend, **limits)
+                graph = draw.Graph(title='Failed test plot')
+                graph.draw_ellipse_line_intersections(**test['input'], 
+                                                            intersections_calc=calculated_out,
+                                                            intersections_true=test['output'])
+                graph.show()
                 raise
                 
 
