@@ -3,7 +3,6 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
 import numpy as np
 
-
 PRECISION = 10_000  # number of points for linspace
 LEFT_X_LIM = -1000  # "-infinity for x"
 RIGHT_X_LIM = 1000  # "+infinity for x"
