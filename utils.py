@@ -1,4 +1,5 @@
 def round_point_array(point_array, ndigits=2):
+    
     new_point_array = []
     for point in point_array:
         el0 = round(point[0], ndigits)

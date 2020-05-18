@@ -1,6 +1,7 @@
 import alg
 import draw
-import utils      
+import utils
+import numpy as np
 import unittest
 
 
@@ -47,7 +48,60 @@ class TestBlackBox(unittest.TestCase):
 
 
 class TestWhiteBox(unittest.TestCase):
-    pass
+    def test_sqr_sol(self):
+        tests = [
+            {
+                'input': {'A': 5, 'B': 1, 'C': 1},  # no roots
+                'output': None
+            },
+            {
+                'input': {'A': 1, 'B': 2, 'C': 1},  # two same roots (one root)
+                'output': (-1,)
+            },
+            {
+                'input': {'A': 5, 'B': -4, 'C': -1},  # two roots
+                'output': (1,-1/5)
+            },
+            {
+                'input': {'A': 0, 'B': 1, 'C': -2},  # bx+c test
+                'output': (2,)
+            },
+            {
+                'input': {'A': 0, 'B': 0, 'C': -2},  # c test
+                'output': None
+            },
+            {
+                'input': {'A': 0, 'B': 1, 'C': 0},  # bx test
+                'output': None
+            },
+            {
+                'input': {'A': 2, 'B': 0, 'C': -8},  # ax^2+c test
+                'output': (-2, 2)
+            },
+            {
+                'input': {'A': 2, 'B': 0, 'C': 8},  # ax^2+c test
+                'output': None
+            },
+            {
+                'input': {'A': 2, 'B': 0, 'C': 0},  # ax^2 test
+                'output': None
+            },
+            {
+                'input': {'A': 2, 'B': -8, 'C': 0},  # ax^2+bx test
+                'output': (0, 4)
+            }
+        ]
+        for test in tests:
+            # test that calculated == true
+            calculated_out = alg.get_sqr_soultions(**test['input'])
+            if calculated_out is not None:
+                calculated_out = np.round(sorted(calculated_out), 2).tolist()
+
+            if test['output'] is not None:
+                test_out = np.round(sorted(test['output']), 2).tolist()
+                self.assertListEqual(calculated_out, test_out)
+            else:
+                self.assertIs(calculated_out, None)
 
 
 if __name__ == "__main__":

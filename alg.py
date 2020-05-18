@@ -2,11 +2,33 @@ from math import sqrt
 
 
 def get_sqr_soultions(A, B, C):
+    # separate cases for zeros
+    if A == 0:
+        if B == 0:
+            return None  # no solutions
+        if C == 0:
+            return None  # infinte possible x
+        return (-C / B, )
+
+    if B == 0:
+        if C == 0:
+            return None  # infinite possible x
+        if A == 0:
+            return None  # no solutions
+        t = -C / A
+        if t < 0:
+            return None  # no real solutions
+        return (-sqrt(t), sqrt(t))
+
+    if C == 0:
+        if (A == 0) or (B == 0):
+            return None  # infinite possible x
+        return (0, -B / A)
     # returns solutions to Ax^2 + Bx + C = 0
     D = B**2 - 4 * A * C
 
     if D < 0:
-        return None
+        return None  # no real solutions
     elif D == 0:
         return (-B / (2 * A),)
     else:
