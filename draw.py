@@ -36,6 +36,14 @@ class Graph():
         return xx, yy
 
 
+    def draw_line(self, k, c, **kwargs):
+        xx = np.linspace(LEFT_X_LIM, RIGHT_X_LIM, PRECISION)
+        yy = k * xx + c
+
+        label = f'Line y = {k}x + {c}'
+        self.fig.add_trace(go.Scatter(x=xx, y=yy, mode='lines', name=label))
+
+
     def draw_ellipse(self, x0, y0, a, b, color='blue', **kwargs):
         xx = np.linspace(x0-a, x0+a, PRECISION)
         # according to

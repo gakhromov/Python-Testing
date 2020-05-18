@@ -48,7 +48,7 @@ class TestBlackBox(unittest.TestCase):
 
 
 class TestWhiteBox(unittest.TestCase):
-    def test_sqr_sol(self):
+    def test_get_sqr_soultions(self):
         tests = [
             {
                 'input': {'A': 5, 'B': 1, 'C': 1},  # no roots
@@ -102,6 +102,84 @@ class TestWhiteBox(unittest.TestCase):
                 self.assertListEqual(calculated_out, test_out)
             else:
                 self.assertIs(calculated_out, None)
+
+    def test_get_intersection_points_with_line(self):
+        tests = [
+            {
+                'input': {'k': 1, 'c': 1, 'x0': 1, 'a': 2, 'y0': 1, 'b': 1},
+                'output': [(-0.6, 0.4), (1, 2)]
+            },
+            {
+                'input': {'k': 0, 'c': 0, 'x0': 1, 'a': 2, 'y0': 1, 'b': 1},
+                'output': [(1,0), ]
+            },
+            {
+                'input': {'k': 0, 'c': 1, 'x0': 1, 'a': 2, 'y0': 1, 'b': 1},
+                'output': [(-1,1), (3,1)]
+            },
+            {
+                'input': {'k': 0, 'c': -1, 'x0': 1, 'a': 2, 'y0': 1, 'b': 1},
+                'output': None
+            },
+        ]
+        for test in tests:
+            # test that calculated == true
+            calculated_out = alg.get_intersection_points_with_line(**test['input'])
+            if calculated_out is not None:
+                calculated_out = utils.round_point_array(sorted(calculated_out))
+            
+            try:
+                if test['output'] is not None:
+                    test_out = utils.round_point_array(sorted(test['output']))
+                    self.assertListEqual(calculated_out, test_out)
+                else:
+                    self.assertIs(calculated_out, test['output'])
+            except:
+                # draw if incorrect
+                if test['output'] is not None:
+                    graph = draw.Graph(title='Failed test plot')
+                    graph.draw_ellipse(**test['input'])
+                    graph.draw_line(**test['input'])
+                    graph.draw_points(np.array(calculated_out)[:, 0], 
+                                    np.array(calculated_out)[:, 1], 
+                                    label='Calculated points')
+                    graph.draw_points(np.array(test['output'])[:, 0], 
+                                    np.array(test['output'])[:, 1], 
+                                    label='True points')
+                    graph.show()
+                raise
+
+
+    def test_get_lines(self):
+        tests = [
+            {
+                'input': {'d': 5},
+                'output': [{'k':-1,'c':-5,'bounds': ('-inf', -5)},
+                           {'k':1,'c':5,'bounds': (-5, 0)},
+                           {'k':-1,'c':5,'bounds': (0, 5)},
+                           {'k':1,'c':-5,'bounds': (5, '+inf')}]
+            },
+            {
+                'input': {'d': -5},
+                'output': [{'k':-1,'c':5,'bounds': ('-inf', 0)},
+                           {'k':1,'c':5,'bounds': (0, '+inf')}]
+            },
+            {
+                'input': {'d': 0},
+                'output': [{'k':-1,'c':0,'bounds': ('-inf', 0)},
+                           {'k':1,'c':0,'bounds': (0, '+inf')}]
+            },
+        ]
+        for test in tests:
+            # test that calculated == true
+            calculated_out = alg.get_lines(**test['input'])
+            calc_out_keys = [list(i.keys()) for i in calculated_out]
+            calc_out_values = [list(i.values()) for i in calculated_out]
+            test_out_keys = [list(i.keys()) for i in test['output']]
+            test_out_values = [list(i.values()) for i in test['output']]
+            
+            self.assertListEqual(calc_out_keys, test_out_keys)
+            self.assertListEqual(calc_out_values, test_out_values)
 
 
 if __name__ == "__main__":

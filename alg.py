@@ -42,6 +42,14 @@ def get_intersection_points_with_line(x0, y0, a, b, k, c):
     # according to
     # https://colab.research.google.com/drive/1_S9dkafBOv-KLqmlQEW1cwP97nSKqmML?usp=sharing
     # , compute A, B, C
+    if k == 0:
+        t = 1 - (c - y0)**2 / (b**2)
+        if t < 0:
+            return None
+        t = a * sqrt(t)
+        t = ((x0 - t, c), (x0 + t, c))
+        return list(set(t))
+    
     c1 = (c - y0) / k
 
     A = (b**2 + a**2 * k**2)
