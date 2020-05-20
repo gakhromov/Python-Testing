@@ -182,5 +182,50 @@ class TestWhiteBox(unittest.TestCase):
             self.assertListEqual(calc_out_values, test_out_values)
 
 
+class TestModule(unittest.TestCase):
+    def test_check_bounds(self):
+        tests = [
+            {
+                'input': {'x':5, 'bounds':[-5, 5]},
+                'output': True
+            },
+            {
+                'input': {'x':10, 'bounds':[-5, 5]},
+                'output': False
+            },
+            {
+                'input': {'x':0, 'bounds':[0, 5]},
+                'output': True
+            },
+            {
+                'input': {'x':1, 'bounds':[1, 1]},
+                'output': True
+            },
+            {
+                'input': {'x':-99999999, 'bounds':['-inf', 2]},
+                'output': True
+            },
+            {
+                'input': {'x':3, 'bounds':['-inf', 2]},
+                'output': False
+            },
+            {
+                'input': {'x':99999999, 'bounds':[2, '+inf']},
+                'output': True
+            },
+            {
+                'input': {'x':-3, 'bounds':[2, '+inf']},
+                'output': False
+            },
+            {
+                'input': {'x':25683, 'bounds':['-inf', '+inf']},
+                'output': True
+            }
+        ]
+        for test in tests:
+            calculated_out = alg.check_bounds(**test['input'])
+            self.assertEqual(calculated_out, test['output'])
+
+
 if __name__ == "__main__":
     unittest.main()
