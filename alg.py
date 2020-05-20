@@ -48,7 +48,7 @@ def get_intersection_points_with_line(x0, y0, a, b, k, c):
             return None
         t = a * sqrt(t)
         t = ((x0 - t, c), (x0 + t, c))
-        return list(set(t))
+        return tuple(set(t))
     
     c1 = (c - y0) / k
 
@@ -68,7 +68,7 @@ def get_intersection_points_with_line(x0, y0, a, b, k, c):
             y = k * x + c
             res.append((x, y))
 
-        return tuple(res)
+        return tuple(set(res))
 
 
 def get_lines(d):
